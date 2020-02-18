@@ -34,12 +34,16 @@ app.get("/tx/*", async function(req, res) {
     if(ret==true){ //handle protocl configed with endpoints
       return;
     }
-    if(handleProtocolByJS(res,protocol,tx)){
+    ret = await handleProtocolByJS(res,protocol,tx);
+    if(ret == true){
       return;
     }
     
   };
-  res.end("handler not found for protocol:" + protocol);
+  if(protocol!=null)
+    res.end("handler not found for protocol:" + protocol);
+  else
+    res.end("handler not found for protocol:" + protocol);
 });
 
 // listen for requests :)
@@ -48,6 +52,7 @@ const listener = app.listen(process.env.PORT, function() {
 });
 
 async function handleProtocolByJS(res,protocol,tx){
+  console.log("in handleProtocolByJS");
   var name = __dirname+"/protocols/"+protocol+"/handler.js";
   var jsHandle ;
   try{
@@ -55,6 +60,7 @@ async function handleProtocolByJS(res,protocol,tx){
   }catch(e){return false;}
   console.log(jsHandle);
   var out = await getOut(tx);
+  console.log(out);
   if(out==null) return false;
   if(jsHandle!=null){
     jsHandle.handle_out(res,out,tx);
@@ -96,7 +102,6 @@ async function getOut(tx){
   var sQuery = {
     v: 3,
     q: {
-      db: ["c"],
       find: {}
     }
   };
@@ -104,6 +109,8 @@ async function getOut(tx){
   var data = await bitQuery(sQuery);
   if(data.c.length>0)
     return data.c[0].out;
+  if(data.u.length>0)
+    return data.u[0].out;
   return null;
 }
 async function getProtocol(tx) {
@@ -126,7 +133,9 @@ async function getProtocol(tx) {
   var s1 = "",
     s2 = "";
   var db = data.u;
+  
   if(db.length==0) db = data.c;
+  
   try {
     b0 = db[0].out[0].b0.op;
   } catch (e) {}
@@ -140,8 +149,8 @@ async function getProtocol(tx) {
     s2 = db[0].out[0].s2;
   } catch (e) {}
   console.log(data);
-  if (b1 === 106) return s2;
-  if (b0 === 106) return s1;
+  if (b1 == 106) return s2;
+  if (b0 == 106) return s1;
   return null;
 }
 async function bitQuery(query) {

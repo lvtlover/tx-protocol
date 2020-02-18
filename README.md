@@ -1,27 +1,24 @@
-Welcome to Glitch
-=================
+# Tx-protocol: Display all current and future data on BSV blockchain
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+Since more and more apps are built on BSV blockchain, it's important to allow people view their data in a more user friendly and cosistent 
+way，no matter how app is build.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+# How does it work?
 
-Find out more [about Glitch](https://glitch.com/about).
+TX protocol is in the form of tx://txid format where txid is the hash of the transaction. It's supposed to show data embeded in one transaction. It assume's every app will set it's own protocol id(PID) following OP_RETURN code. 
+It will process the request in the following sequence.
 
+1. Extract the PID from tx data.
+2. Check if the PID has an existing endpoint to handle. ( For example: bico.media can handle b:// bcat:// etc ) If it does, it will read data from the endpoint, passing tx to the endpoint.
+3. If the PID does not have an endpoint, check if it has a PID handler js (in protocol/identifier/handler.js) and pass tx.out, protocol id,tx to it. The handler.js is supposed to analyse data and output the desired display.
 
-Your Project
-------------
+# How to participate?
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+- Deveoper can help maintain the code, fix bugs and propose new improvements.
+- App vendor can provide their endpoint to handle its own protocol, or provide code to display its own data.
+- If you want to submit your endpoint or js code, please sumbit an issue or start a pull request.
+- You are also encouraged to integrate the code to your app or server to provide tx-protocol service.
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+# Where to use?
 
-
-Made by [Glitch](https://glitch.com/)
--------------------
-
-\ ゜o゜)ノ
+The new version of [Maxthon browser](www.maxthon.com), mx6, will implement TX protocol.

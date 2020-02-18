@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Welcome to Glitch!</title>
+    <title>TX Protocol</title>
     <meta name="description" content="A cool thing made with Glitch">
     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -26,19 +26,17 @@
   <body>
     <header>
       <h1>
-        A Dream of the Future
+        TX Protocol - View onchain data
       </h1>
     </header>
 
     <main>
-      <p class="bold">Oh hi,</p>
+      <p class="bold">Please input tx hash:</p>
       
-      <p>Tell me your hopes and dreams:</p>
       
-      <form>
-        <input name="dream" type="text" maxlength="100" placeholder="Dreams!" aria-labelledby="submit-dream">
-        <button type="submit" id="submit-dream">Submit Dream</button>
-      </form>
+        <input name="dream" type="text" maxlength="100" placeholder="TX" id="inputTX">
+        <button id="view" onclick="onSubmit()">Submit</button>
+    
       
       <section class="dreams">
         <ul id="dreams"></ul>
