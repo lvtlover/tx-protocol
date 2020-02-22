@@ -27,6 +27,7 @@ app.get("/tx/*", async function(req, res) {
   var tx = path.substring(path.lastIndexOf("/") + 1);
   if(typeof protocol === 'undefined'){
    protocol = await getProtocol(tx);
+   console.log("protocol is:"+protocol);
   }
   if( protocol!=null ){
     var ret = await handleEndpoints(res,protocol,tx);
@@ -127,7 +128,13 @@ async function getProtocol(tx) {
     }
   };
   sQuery.q.find["tx.h"] = tx;
-  var data = await bitQuery(sQuery);
+  var data ;
+  try{
+  data = await bitQuery(sQuery);
+  }catch (e) {
+    console.log("bitQuery Error, statusText:"+ e.response.statusText);
+    return null;
+  }
   var b0 = 0,
     b1 = 0;
   var s1 = "",
@@ -155,7 +162,7 @@ async function getProtocol(tx) {
 }
 async function bitQuery(query) {
   const BITDB_QUERY_ENDPOINT =
-    "https://neongenesis.bitdb.network/q/1HcBPzWoKDL2FhCMbocQmLuFTYsiD73u1j/";
+    "https://genesis.bitdb.network/q/1FnauZ9aUH2Bex6JzdcV4eNX7oLSSEbxtN/";
   const BITDB_API_KEY = "1EsSztGmvhcB62arZR5HaaHCYVb3G31pSu";
 
   var query_url =
