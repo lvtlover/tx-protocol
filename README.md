@@ -24,7 +24,7 @@ The handler.js is supposed to analyse data and output the desired display.
 
 # Where to use?
 
-The new version of [Maxthon browser](www.maxthon.com), mx6, will implement TX protocol. A standalone endpoint can also be built.
+The new version of [Maxthon browser](www.maxthon.com), mx6, will implement TX protocol. A standalone endpoint can also be built. Test server https://tx-protocol.glitch.me/
 
 # Supported protocols
 
